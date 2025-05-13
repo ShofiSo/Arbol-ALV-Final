@@ -35,4 +35,17 @@ class AVLTree {
 
         return x;
     }
+
+    Node rotarIzquierda(Node x) {
+        Node y = x.derecha;
+        Node T2 = y.izquierda;
+
+        y.izquierda = x;
+        x.derecha = T2;
+
+        x.altura = max(getAltura(x.izquierda), getAltura(x.derecha)) + 1;
+        y.altura = max(getAltura(y.izquierda), getAltura(y.derecha)) + 1;
+
+        return y;
+    }
 }
