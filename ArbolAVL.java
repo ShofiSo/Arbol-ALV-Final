@@ -1,8 +1,10 @@
+
 import java.util.Scanner;
 
 public class ArbolAVL {
 
     static class Node {
+
         int valor, altura;
         Node izquierda, derecha;
 
@@ -13,6 +15,7 @@ public class ArbolAVL {
     }
 
     static class AVLTree {
+
         Node raiz;
 
         int getAltura(Node nodo) {
@@ -54,24 +57,28 @@ public class ArbolAVL {
         }
 
         Node insertar(Node nodo, int valor) {
-            if (nodo == null)
+            if (nodo == null) {
                 return new Node(valor);
+            }
 
-            if (valor < nodo.valor)
-                nodo.izquierda = insertar(nodo.izquierda, valor);
-            else if (valor > nodo.valor)
-                nodo.derecha = insertar(nodo.derecha, valor);
-            else
+            if (valor < nodo.valor) {
+                nodo.izquierda = insertar(nodo.izquierda, valor); 
+            }else if (valor > nodo.valor) {
+                nodo.derecha = insertar(nodo.derecha, valor); 
+            }else {
                 return nodo;
+            }
 
             nodo.altura = 1 + max(getAltura(nodo.izquierda), getAltura(nodo.derecha));
             int balance = getFactorBalance(nodo);
 
-            if (balance > 1 && valor < nodo.izquierda.valor)
+            if (balance > 1 && valor < nodo.izquierda.valor) {
                 return rotarDerecha(nodo);
+            }
 
-            if (balance < -1 && valor > nodo.derecha.valor)
+            if (balance < -1 && valor > nodo.derecha.valor) {
                 return rotarIzquierda(nodo);
+            }
 
             if (balance > 1 && valor > nodo.izquierda.valor) {
                 nodo.izquierda = rotarIzquierda(nodo.izquierda);
@@ -91,13 +98,15 @@ public class ArbolAVL {
         }
 
         void imprimir(Node nodo, int nivel) {
-            if (nodo == null)
+            if (nodo == null) {
                 return;
+            }
 
             imprimir(nodo.derecha, nivel + 1);
 
-            for (int i = 0; i < nivel; i++)
+            for (int i = 0; i < nivel; i++) {
                 System.out.print("    ");
+            }
             System.out.println(nodo.valor);
 
             imprimir(nodo.izquierda, nivel + 1);
@@ -114,8 +123,9 @@ public class ArbolAVL {
             System.out.print("Número: ");
             String entrada = scanner.nextLine();
 
-            if (entrada.equalsIgnoreCase("exit") || entrada.equals("-1"))
+            if (entrada.equalsIgnoreCase("exit") || entrada.equals("-1")) {
                 break;
+            }
 
             try {
                 int numero = Integer.parseInt(entrada);
