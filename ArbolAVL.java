@@ -117,7 +117,7 @@ public class ArbolAVL {
         AVLTree arbol = new AVLTree();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese números para insertar en el árbol AVL. Escribe 'exit' para salir del programa...");
+        System.out.println("Ingrese numeros para insertar en el arbol AVL. Escribe 'exit' para salir del programa...");
 
         while (true) {
             System.out.print("Número: ");
