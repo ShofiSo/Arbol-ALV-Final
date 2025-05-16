@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class ArbolAVL {
 
     static class Node {
+
         int valor, altura;
         Node izquierda, derecha;
 
@@ -13,6 +14,7 @@ public class ArbolAVL {
     }
 
     static class AVLTree {
+
         Node raiz;
 
         int getAltura(Node nodo) {
@@ -128,7 +130,7 @@ public class ArbolAVL {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese numeros para insertar en el arbol AVL.");
-        System.out.println("Escribe +1 para buscar un numero, 'exit' o '-1' para salir.");
+        System.out.println("Escribe '0' para buscar un numero, 'exit' o '-1' para salir.");
 
         while (true) {
             System.out.print("Comando o numero: ");
@@ -138,30 +140,28 @@ public class ArbolAVL {
                 break;
             }
 
+            if (entrada.equals("0")) {
+                System.out.print("Numero a buscar: ");
+                String valorBuscar = scanner.nextLine();
+                try {
+                    int numBuscar = Integer.parseInt(valorBuscar);
+                    boolean encontrado = arbol.buscar(arbol.raiz, numBuscar);
+                    if (encontrado) {
+                        System.out.println("Si esta el numero en el arbol");
+                    } else {
+                        System.out.println("No esta el numero en el arbol");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada no valida para busqueda.");
+                }
+                continue;
+            }
+
             try {
                 int numero = Integer.parseInt(entrada);
-
-                if (numero == 1) {  // +1 es solo 1, no acepta el símbolo +
-                    System.out.print("Numero a buscar: ");
-                    String valorBuscar = scanner.nextLine();
-                    try {
-                        int numBuscar = Integer.parseInt(valorBuscar);
-                        boolean encontrado = arbol.buscar(arbol.raiz, numBuscar);
-                        if (encontrado) {
-                            System.out.println("Si está el numero en el arbol");
-                        } else {
-                            System.out.println("No esta el numero en el arbol");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Entrada no valida para busqueda.");
-                    }
-                    continue;
-                }
-
                 arbol.raiz = arbol.insertar(arbol.raiz, numero);
                 System.out.println("Arbol AVL ACTUALIZADO:");
                 arbol.printTree(arbol.raiz);
-
             } catch (NumberFormatException e) {
                 System.out.println("Entrada no valida. Intente de nuevo.");
             }
@@ -170,6 +170,7 @@ public class ArbolAVL {
         scanner.close();
     }
 }
+
 
 
 
