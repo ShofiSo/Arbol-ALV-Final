@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class ArbolAVL {
@@ -62,10 +61,10 @@ public class ArbolAVL {
             }
 
             if (valor < nodo.valor) {
-                nodo.izquierda = insertar(nodo.izquierda, valor); 
-            }else if (valor > nodo.valor) {
-                nodo.derecha = insertar(nodo.derecha, valor); 
-            }else {
+                nodo.izquierda = insertar(nodo.izquierda, valor);
+            } else if (valor > nodo.valor) {
+                nodo.derecha = insertar(nodo.derecha, valor);
+            } else {
                 return nodo;
             }
 
@@ -111,32 +110,67 @@ public class ArbolAVL {
 
             imprimir(nodo.izquierda, nivel + 1);
         }
+
+        // Para que me pueda buscar
+        boolean buscar(Node nodo, int valor) {
+            if (nodo == null) {
+                return false;
+            }
+            if (valor == nodo.valor) {
+                return true;
+            } else if (valor < nodo.valor) {
+                return buscar(nodo.izquierda, valor);
+            } else {
+                return buscar(nodo.derecha, valor);
+            }
+        }
     }
 
     public static void main(String[] args) {
         AVLTree arbol = new AVLTree();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese numeros para insertar en el arbol AVL. Escribe 'exit' para salir del programa...");
+        System.out.println("Ingrese numeros para insertar en el arbol AVL.");
+        System.out.println("Escribe 'buscar' para buscar un numero, 'exit' o '-1' para salir.");
 
         while (true) {
-            System.out.print("Número: ");
+            System.out.print("Comando o numero: ");
             String entrada = scanner.nextLine();
 
             if (entrada.equalsIgnoreCase("exit") || entrada.equals("-1")) {
                 break;
             }
 
+            if (entrada.equalsIgnoreCase("buscar")) {
+                System.out.print("Numero a buscar: ");
+                String valorBuscar = scanner.nextLine();
+                try {
+                    int numBuscar = Integer.parseInt(valorBuscar);
+                    boolean encontrado = arbol.buscar(arbol.raiz, numBuscar);
+                    if (encontrado) {
+                        System.out.println("El numero " + numBuscar + " sí esta en el arbol.");
+                    } else {
+                        System.out.println("El numero " + numBuscar + " no se encontro en el arbol.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada no valida para búsqueda.");
+                }
+                continue;
+            }
+
             try {
                 int numero = Integer.parseInt(entrada);
                 arbol.raiz = arbol.insertar(arbol.raiz, numero);
-                System.out.println("Árbol AVL actualizado:");
+                System.out.println("Arbol AVL ACTUALIZADO:");
                 arbol.printTree(arbol.raiz);
             } catch (NumberFormatException e) {
-                System.out.println("Entrada no válida. Intente de nuevo.");
+                System.out.println("Entrada no valida. Intente de nuevo.");
             }
         }
 
         scanner.close();
     }
 }
+
+
+
