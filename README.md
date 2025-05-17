@@ -1,148 +1,117 @@
-1. Resumen general:
-El código implementa un Árbol AVL, que es un árbol binario de búsqueda auto-balanceado. El objetivo principal del árbol AVL es mantener el balance de la altura entre los subárboles izquierdo y derecho para que las operaciones de inserción, búsqueda y eliminación se realicen en tiempo logarítmico O(log n).
+1. Introducción
+El presente documento describe la implementación de un Árbol AVL en el lenguaje de programación Java. 
+Un árbol AVL es un árbol binario de búsqueda auto-balanceado que mantiene la diferencia de altura entre subárboles en un rango de -1 a 1, permitiendo operaciones eficientes de inserción y búsqueda.
 
-El programa permite insertar números, imprimir el árbol y buscar números dentro del árbol mediante comandos ingresados por consola.
+2.Explicación del Código
+Clase Principal: ArbolAVL
+Esta clase contiene la estructura del programa, donde se definen las clases internas Node y AVLTree, y el método main que interactúa con el usuario.
 
-Conceptos Clave
+***************************************
+public class ArbolAVL {
+***************************************
 
-Árbol binario de búsqueda (BST): estructura de datos donde para cada nodo, los valores del subárbol izquierdo son menores y los del derecho son mayores.
+-Clase Node
+Representa un nodo del árbol.
 
-Árbol AVL: BST auto-balanceado que mantiene la propiedad de que la diferencia de altura entre subárboles izquierdo y derecho no sea mayor que 1.
+-Valor: el número que contiene el nodo.
+-Altura: la altura del nodo (1 si es hoja).
+-Izquierda y derecha: apuntan a los nodos hijos.
+-Atributos:
+-int valor: almacena el valor numérico del nodo.
+-int altura: almacena la altura del nodo (número de niveles desde este nodo hasta la hoja más baja).
+-Node izquierda: referencia al nodo hijo izquierdo.
+-Node derecha: referencia al nodo hijo derecho.
+-Constructor: Inicializa el valor con el dato recibido y la altura en 1 (un nodo nuevo es una hoja inicialmente).
 
-Rotaciones: operaciones que reestructuran el árbol para mantenerlo balanceado después de inserciones o eliminaciones.
-
-Recursión: el código usa recursión para insertar y buscar valores en el árbol.
-
-2. Clases y estructura de mi código:
-Clase Node
-Esta clase representa cada nodo del árbol AVL.
-
-******************************************
+***************************************
 static class Node {
+
 
         int valor, altura;
         Node izquierda, derecha;
+
 
         public Node(int valor) {
             this.valor = valor;
             altura = 1;
         }
     }
-******************************************
+***************************************
 
-Atributos:
+-Clase AVLTree
+Contiene la lógica del árbol AVL: inserción, balanceo, rotaciones y búsqueda.
+-Método: getAltura
+Devuelve la altura de un nodo.
+-Método: getFactorBalance
+Calcula la diferencia de altura entre subárboles.
+-Método: max
+Devuelve el mayor de dos enteros.
+-Rotaciones
+Balancean el árbol cuando se detecta desbalance.
+-Inserción con rebalanceo
+Inserta un nodo y balancea el árbol si es necesario.
 
-int valor: almacena el valor numérico del nodo.
-
-int altura: almacena la altura del nodo (número de niveles desde este nodo hasta la hoja más baja).
-
-Node izquierda: referencia al nodo hijo izquierdo.
-
-Node derecha: referencia al nodo hijo derecho.
-
-Constructor:
-
-Inicializa el valor con el dato recibido y la altura en 1 (un nodo nuevo es una hoja inicialmente).
-
-3. Clase AVLTree
-Esta clase contiene toda la lógica del árbol AVL, como inserción, balanceo, rotaciones y búsqueda.
-
-Atributo:
-
-Node raiz: nodo raíz del árbol AVL.
-Métodos principales de la clase AVLTree
-int getAltura(Node nodo)
-Devuelve la altura del nodo. Si el nodo es null devuelve 0.
-
-int getFactorBalance(Node nodo)
-Calcula y devuelve el factor de balance de un nodo, que es la diferencia entre la altura del subárbol izquierdo y la del derecho.
-
-Factor balance = altura(subárbol izquierdo) - altura(subárbol derecho).
-
-int max(int a, int b)
-Devuelve el máximo entre dos valores enteros.
-
-Rotaciones para mantener el balance del árbol AVL:
-Son necesarias para asegurar que la diferencia de altura entre subárboles no sea mayor que 1.
-
-Node rotarDerecha(Node y)
-Realiza una rotación simple a la derecha, usada cuando el árbol está desbalanceado a la izquierda.
-
-Node rotarIzquierda(Node x)
-Realiza una rotación simple a la izquierda, usada cuando el árbol está desbalanceado a la derecha.
-
-Node insertar(Node nodo, int valor)
-Inserta un nuevo valor en el árbol de manera recursiva y actualiza el balance del árbol mediante rotaciones si es necesario.
-Pasos:
-
-Insertar el valor en la posición correspondiente (como en un árbol binario de búsqueda).
-
-Actualizar la altura del nodo.
-
-Calcular el factor de balance.
-
-Realizar rotaciones si el árbol está desbalanceado (4 casos: Izquierda-Izquierda, Derecha-Derecha, Izquierda-Derecha, Derecha-Izquierda).
-
-void printTree(Node nodo)
-Imprime el árbol en consola con una visualización que muestra la estructura jerárquica.
-
-void imprimir(Node nodo, int nivel)
-Método auxiliar para printTree, imprime los nodos con indentación según el nivel para simular la estructura del árbol.
-
-boolean buscar(Node nodo, int valor)
-Busca recursivamente un valor en el árbol.
-
-Devuelve true si el valor está en el árbol.
-
-Devuelve false si no se encuentra.
-
-******************************************
+***************************************
 static class AVLTree {
 
+
         Node raiz;
+
 
         int getAltura(Node nodo) {
             return nodo == null ? 0 : nodo.altura;
         }
 
+
         int getFactorBalance(Node nodo) {
             return nodo == null ? 0 : getAltura(nodo.izquierda) - getAltura(nodo.derecha);
         }
+
 
         int max(int a, int b) {
             return a > b ? a : b;
         }
 
+
         Node rotarDerecha(Node y) {
             Node x = y.izquierda;
             Node T2 = x.derecha;
 
+
             x.derecha = y;
             y.izquierda = T2;
+
 
             y.altura = max(getAltura(y.izquierda), getAltura(y.derecha)) + 1;
             x.altura = max(getAltura(x.izquierda), getAltura(x.derecha)) + 1;
 
+
             return x;
         }
+
 
         Node rotarIzquierda(Node x) {
             Node y = x.derecha;
             Node T2 = y.izquierda;
 
+
             y.izquierda = x;
             x.derecha = T2;
+
 
             x.altura = max(getAltura(x.izquierda), getAltura(x.derecha)) + 1;
             y.altura = max(getAltura(y.izquierda), getAltura(y.derecha)) + 1;
 
+
             return y;
         }
+
 
         Node insertar(Node nodo, int valor) {
             if (nodo == null) {
                 return new Node(valor);
             }
+
 
             if (valor < nodo.valor) {
                 nodo.izquierda = insertar(nodo.izquierda, valor);
@@ -152,48 +121,64 @@ static class AVLTree {
                 return nodo;
             }
 
+
             nodo.altura = 1 + max(getAltura(nodo.izquierda), getAltura(nodo.derecha));
             int balance = getFactorBalance(nodo);
+
 
             if (balance > 1 && valor < nodo.izquierda.valor) {
                 return rotarDerecha(nodo);
             }
 
+
             if (balance < -1 && valor > nodo.derecha.valor) {
                 return rotarIzquierda(nodo);
             }
+
 
             if (balance > 1 && valor > nodo.izquierda.valor) {
                 nodo.izquierda = rotarIzquierda(nodo.izquierda);
                 return rotarDerecha(nodo);
             }
 
+
             if (balance < -1 && valor < nodo.derecha.valor) {
                 nodo.derecha = rotarDerecha(nodo.derecha);
                 return rotarIzquierda(nodo);
             }
 
+
             return nodo;
         }
+***************************************
 
-        void printTree(Node nodo) {
+-Impresión del árbol
+Visualiza el árbol con indentaciones y la búsqueda del valor a través del método booleano.
+
+***************************************
+void printTree(Node nodo) {
             imprimir(nodo, 0);
         }
+
 
         void imprimir(Node nodo, int nivel) {
             if (nodo == null) {
                 return;
             }
 
+
             imprimir(nodo.derecha, nivel + 1);
+
 
             for (int i = 0; i < nivel; i++) {
                 System.out.print("    ");
             }
             System.out.println(nodo.valor);
 
+
             imprimir(nodo.izquierda, nivel + 1);
         }
+
 
         boolean buscar(Node nodo, int valor) {
             if (nodo == null) {
@@ -208,47 +193,40 @@ static class AVLTree {
             }
         }
     }
-******************************************
-4. Método main
-Controla la interacción con el usuario desde la consola.
+***************************************
+-Método main
+Permite al usuario insertar, buscar y salir mediante comandos por consola.
+-Crea una instancia de AVLTree y un Scanner para entrada de datos.
+-Instruye al usuario para que pueda:
+-Insertar números (cualquier entero).
+-Escribir 0 para buscar un número dentro del árbol.
+-Escribir exit o -1 para terminar el programa.
+-En el bucle while(true):
+-Lee la entrada del usuario.
+-Si es exit o -1, termina el programa.
+-Si es 0, solicita un número para buscar y muestra si está o no en el árbol.
+-Si es un número entero, lo inserta en el árbol y muestra el árbol actualizado.
+-Si la entrada no es válida, muestra un mensaje de error.
 
-Crea una instancia de AVLTree y un Scanner para entrada de datos.
-
-Instruye al usuario para que pueda:
-
-Insertar números (cualquier entero).
-
-Escribir 0 para buscar un número dentro del árbol.
-
-Escribir exit o -1 para terminar el programa.
-
-En el bucle while(true):
-
-Lee la entrada del usuario.
-
-Si es exit o -1, termina el programa.
-
-Si es 0, solicita un número para buscar y muestra si está o no en el árbol.
-
-Si es un número entero, lo inserta en el árbol y muestra el árbol actualizado.
-
-Si la entrada no es válida, muestra un mensaje de error.
-
-******************************************
+***************************************
 public static void main(String[] args) {
         AVLTree arbol = new AVLTree();
         Scanner scanner = new Scanner(System.in);
 
+
         System.out.println("Ingrese numeros para insertar en el arbol AVL.");
         System.out.println("Escribe '0' para buscar un numero, 'exit' o '-1' para salir.");
+
 
         while (true) {
             System.out.print("Comando o numero: ");
             String entrada = scanner.nextLine();
 
+
             if (entrada.equalsIgnoreCase("exit") || entrada.equals("-1")) {
                 break;
             }
+
 
             if (entrada.equals("0")) {
                 System.out.print("Numero a buscar: ");
@@ -267,6 +245,7 @@ public static void main(String[] args) {
                 continue;
             }
 
+
             try {
                 int numero = Integer.parseInt(entrada);
                 arbol.raiz = arbol.insertar(arbol.raiz, numero);
@@ -277,7 +256,30 @@ public static void main(String[] args) {
             }
         }
 
+
         scanner.close();
     }
 }
-******************************************
+***************************************
+
+3. Ejecución del Código
+-Cuando ingresamos al programa nos debe mostrar las indicaciones que configuramos, los comandos para buscar, insertar números en el árbol o salir del programa.
+-Ingresamos los números según se requiera, y nos debe ir mostrando el árbol actualizado.
+-Para buscar o verificar que tal número se encuentra dentro del árbol, ingresamos el número “0”, el cuál nos debe mostrar en consola el mensaje: “Si está el número en el árbol” o “No está el número en el árbol”, según sea el caso.
+-Podemos seguir ingresando números según necesitamos y nos debe mostrar el árbol actualizado.
+-Por último, podemos escribir -1 o “exit” para salir del programa y terminar la ejecución del código.
+
+4. Conclusión
+Este código es una implementación funcional de un árbol AVL que permite:
+
+-Insertar valores manteniendo el balance del árbol.
+-Buscar valores de forma eficiente.
+-Mostrar la estructura del árbol de forma visual en consola.
+-Interactuar con el usuario mediante consola con opciones claras para insertar, buscar y salir.
+
+5. Enlace Repositorio GitHub
+-https://github.com/ShofiSo/Arbol-ALV-Final
+
+6. Enlace Video Youtube:
+-https://youtu.be/IGlYXKm4opM
+
